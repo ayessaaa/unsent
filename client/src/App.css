@@ -1,1 +1,21 @@
-/* @import "tailwindcss"; */
+@import "tailwindcss";
+
+@font-face {
+  font-family: Switzal;
+  src: url(font/Switzal.ttf);
+}
+
+@theme {
+  --color-green-dark: #1D5B1F;
+  --color-green-light: #9EEC82;
+  --color-green-sub-dark: #5D9C53;
+  --color-green-sub-dark: #5D9C53;
+}
+
+body {
+  background-image: url(imgs/bg_green.png);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  font-family: Switzal;
+}
