@@ -1,3 +1,4 @@
+import Chatbox from "../components/Chatbox";
 import Clouds from "../components/Clouds";
 import Logo from "../components/Logo";
 
@@ -6,9 +7,9 @@ function Landing() {
     <>
       <Clouds />
       <div className="pt-10">
-
-      <Logo />
+        <Logo />
       </div>
+      <Chatbox />
     </>
   );
 }
