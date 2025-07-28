@@ -1,0 +1,14 @@
+{
+  "name": "unsent",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ayessaaa/unsent.git",
+  "author": "Ayessa <ayessamaedeguzman78@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10",
+    "socket.io": "^4.8.1"
+  }
+}
