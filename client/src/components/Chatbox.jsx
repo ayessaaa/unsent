@@ -8,6 +8,7 @@ function Chatbox({
   messages,
   handleTyping,
   theirTypingMessage,
+  
 }) {
   return (
     <div>

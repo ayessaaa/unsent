@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import RoomID from "../components/RoomID";
+import Mode from "../components/Mode";
 
 const socket = io.connect("http://localhost:3000");
 
@@ -14,6 +15,8 @@ function PrivateRoom() {
   const [messages, setMessages] = useState([]);
 
   const [theirTypingMessage, setTheirTypingMessage] = useState("");
+
+  const [mode, setMode] = useState("global");
 
   useEffect(() => {
     socket.emit("join_room", roomID);
@@ -70,7 +73,8 @@ function PrivateRoom() {
       <div className="pt-10">
         <Logo />
       </div>
-      <RoomID/>
+
+      <Mode mode={mode} setMode={setMode} />
       <Chatbox
         message={message}
         setMessage={setMessage}
