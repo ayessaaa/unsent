@@ -2,7 +2,7 @@ function Receive({ typing = false, children }) {
   return (
     <div className="flex gap-5 pr-30 align-bottom items-end">
       <img
-        src="imgs/pfp.jpg"
+        src="/imgs/pfp.jpg"
         className={`size-12 rounded-full ${typing && "opacity-50"}`}
       ></img>
       <div>

@@ -2,6 +2,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Landing from "./pages/Landing";
 import App from "./App";
+import PrivateRoom from "./pages/PrivateRoom";
 
 const root = document.getElementById("root");
 
@@ -10,6 +11,7 @@ ReactDOM.createRoot(root).render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/landing" element={<Landing />} />
+      <Route path="/private-room/:roomID" element={<PrivateRoom />} />
     </Routes>
   </BrowserRouter>
 );

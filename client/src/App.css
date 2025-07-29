@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: Switzal;
-  src: url(font/Switzal.ttf);
+  src: url(/font/Switzal.ttf);
 }
 
 @theme {
@@ -13,7 +13,7 @@
 }
 
 body {
-  background-image: url(imgs/bg_green.png);
+  background-image: url(/imgs/bg_green.png);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
