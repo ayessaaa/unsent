@@ -25,6 +25,11 @@ io.on("connection", (socket)=>{
       socket.to(data.room).emit("receive_message", data)
       console.log("message sent: ", data.message);
     })
+
+    socket.on("send_typing_message", (data)=>{
+      socket.to(data.room).emit("receive_typing_message", data)
+      console.log("message sent typing: ", data.message);
+    })
 }) 
 
 server.listen(3000, ()=>{

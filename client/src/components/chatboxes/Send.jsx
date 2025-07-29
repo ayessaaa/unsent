@@ -1,6 +1,6 @@
-function Send({ typing = false, children }) {
+function Send({ typing = false, time, children }) {
   return (
-    <div className="flex gap-5 pl-30 pr-10 align-bottom items-end">
+    <div className="flex gap-5 pl-30 pr-10 align-bottom items-end animate__fadeInUpBig animate__animated animate__faster">
       <div className="flex flex-col items-end ml-auto">
         <p
           className={` ${
@@ -9,17 +9,22 @@ function Send({ typing = false, children }) {
         >
           {typing ? "u are typing..." : ""}
         </p>
-        <div
-          className={`${
-            !typing ? "bg-green-sub-dark" : "bg-green-sub-dark/30"
-          } tracking-wider text-white text-3xl/7 w-fit px-7 py-2 rounded-xl right-0`}
-        >
-          {children}
-          {typing && (
-            <span className="text-white/90 animate__animated animate__flash animate__infinite animate__slower">
-              I
-            </span>
-          )}
+        <div className="flex gap-5 items-center group">
+          <p className=" group-hover:opacity-100 opacity-0 transition-all tracking-wide text-green-sub-dark/50">
+            {time}
+          </p>
+          <div
+            className={`${
+              !typing ? "bg-green-sub-dark" : "bg-green-sub-dark/30"
+            } tracking-wider text-white text-3xl/7 w-fit px-7 py-2 rounded-xl right-0`}
+          >
+            {children}
+            {typing && (
+              <span className="text-white/90 animate__animated animate__flash animate__infinite animate__slower">
+                I
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </div>
