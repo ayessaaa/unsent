@@ -16,7 +16,7 @@ function Send({ typing = false, time, children }) {
           <div
             className={`${
               !typing ? "bg-green-sub-dark" : "bg-green-sub-dark/30"
-            } tracking-wider text-white text-3xl/7 w-fit px-7 py-2 rounded-xl right-0`}
+            } tracking-wider text-white text-2xl/7 w-fit px-6 py-1.5 rounded-xl right-0`}
           >
             {children}
             {typing && (

@@ -34,7 +34,7 @@ function PrivateRoom() {
     };
 
     const handleReceiveTypingMessage = (data) => {
-      setTheirTypingMessage(data.message);
+      setTheirTypingMessage(data);
       console.log("message received typing: ", data.message);
     };
 
@@ -56,6 +56,7 @@ function PrivateRoom() {
     setMessage("");
     socket.emit("send_typing_message", {
       message: "",
+      from: "user",
       room: roomID,
     });
   };
@@ -63,6 +64,7 @@ function PrivateRoom() {
   const handleTyping = (typingMessage) => {
     socket.emit("send_typing_message", {
       message: typingMessage,
+      from: "user",
       room: roomID,
     });
   };
@@ -74,7 +76,7 @@ function PrivateRoom() {
         <Logo />
       </div>
 
-      <Mode mode={mode} setMode={setMode} />
+      <Mode roomID={roomID} mode={mode} setMode={setMode} />
       <Chatbox
         message={message}
         setMessage={setMessage}

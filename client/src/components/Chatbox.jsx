@@ -8,17 +8,18 @@ function Chatbox({
   messages,
   handleTyping,
   theirTypingMessage,
+  landing=false
   
 }) {
   return (
     <div>
-      <div className="bg-white  w-180 mx-auto rounded-3xl shadow-sm mt-5 p-5">
+      <div className="bg-white  w-180 mx-auto rounded-3xl shadow-sm mt-3 p-5">
         <div className="flex flex-col items-center">
-          <img src="/imgs/pfp.jpg" className="size-15 rounded-full"></img>
-          <h1 className="text-4xl tracking-widest text-green-dark">forg</h1>
+          <img src="/imgs/pfp.jpg" className="size-12 rounded-full"></img>
+          <h1 className="text-3xl tracking-widest text-green-dark">forg</h1>
         </div>
 
-        <div className="bg-green-sub-lightest w-full h-110 mt-5 rounded-3xl shadow-sm p-5 flex flex-col align-bottom justify-end">
+        <div className="bg-green-sub-lightest w-full h-100 mt-2 rounded-3xl shadow-sm p-5 flex flex-col align-bottom justify-end">
           <div className="overflow-y-auto flex flex-col-reverse overflow-x-visible">
             <div className="flex gap-1 pb-5 flex-col">
               <div className="flex-1 text-center tracking-wider text-green-sub-dark text-lg">
@@ -45,7 +46,8 @@ function Chatbox({
                 ) : (
                   <Receive
                     key={index}
-                    followingMessage={index !== 0 && messages[index - 1].from === "user"}
+                    followingMessage={index !== 0 && messages[index - 1].from === messages[index].from}
+                    user={msg.from}
                     time={
                       msg.time.split(":")[0] +
                       ":" +
@@ -58,7 +60,7 @@ function Chatbox({
                   </Receive>
                 )
               )}
-              {theirTypingMessage && <Receive typing={true}>{theirTypingMessage}</Receive>}
+              {theirTypingMessage.message && <Receive typing={true} user={theirTypingMessage.from}>{theirTypingMessage.message}</Receive>}
 
               {message && <Send typing={true}>{message}</Send>}
             </div>
@@ -72,13 +74,15 @@ function Chatbox({
             }}
           >
             <input
-              className="w-full bg-white px-5 py-2 text-green-dark/70 text-3xl tracking-wide rounded-xl shadow-sm transition-all hover:bg-white/50 focus:bg-green-sub-dark focus:outline-0 focus:text-white"
+            
+              className="w-full bg-white px-5 py-2 text-green-dark/70 text-2xl tracking-wide rounded-xl shadow-sm transition-all hover:bg-white/50 focus:bg-green-sub-dark focus:outline-0 focus:text-white"
               placeholder="type your message here ..."
               onChange={(e) => {
                 setMessage(e.target.value);
                 handleTyping(e.target.value); 
               }}
               value={message}
+              disabled={landing}
             ></input>
 
             <button type="submit">

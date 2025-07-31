@@ -1,6 +1,6 @@
 import RoomID from "./RoomID";
 
-function Mode({ mode, setMode }) {
+function Mode({ mode, setMode, roomID }) {
   const handleModeChange = (newMode) => {
     setMode(newMode);
   };
@@ -47,7 +47,7 @@ function Mode({ mode, setMode }) {
         </button>
       </div>
       <p className="text-center flex-1 text-white text-2xl tracking-wider">{mode} chat</p>
-      <RoomID />
+      <RoomID roomID={roomID} />
     </div>
   );
 }
