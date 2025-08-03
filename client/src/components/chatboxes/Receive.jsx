@@ -2,6 +2,7 @@ function Receive({
   typing = false,
   followingMessage = false,
   time,
+  pfp,
   user,
   children,
 }) {
@@ -9,7 +10,7 @@ function Receive({
     <div className="flex gap-5 pr-30 align-bottom items-end animate__fadeInUpBig animate__animated animate__faster">
       {!followingMessage ? (
         <img
-          src="/imgs/pfp.jpg"
+          src={pfp}
           className={`size-12 rounded-full ${typing && "opacity-50"}`}
         ></img>
       ) : (

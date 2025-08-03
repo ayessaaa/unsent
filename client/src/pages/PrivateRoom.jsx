@@ -27,6 +27,7 @@ function PrivateRoom() {
         {
           message: data.message,
           from: "user",
+          pfp: data.pfp,
           time: new Date().toLocaleTimeString(),
         },
       ]);
@@ -57,6 +58,7 @@ function PrivateRoom() {
     socket.emit("send_typing_message", {
       message: "",
       from: "user",
+      pfp: "/imgs/pfp/frog.PNG",
       room: roomID,
     });
   };
@@ -65,6 +67,7 @@ function PrivateRoom() {
     socket.emit("send_typing_message", {
       message: typingMessage,
       from: "user",
+      pfp: "/imgs/pfp/frog.PNG",
       room: roomID,
     });
   };

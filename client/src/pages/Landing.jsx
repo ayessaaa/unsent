@@ -16,6 +16,7 @@ function Landing() {
         {
           message: "hi!",
           from: "yessa",
+          pfp: "/imgs/pfp/frog1.PNG",
           time: new Date().toLocaleTimeString(),
         },
       ]);
@@ -28,6 +29,7 @@ function Landing() {
         {
           message: "check out this amazing chat app",
           from: "yessa",
+          pfp: "/imgs/pfp/frog1.PNG",
           time: new Date().toLocaleTimeString(),
         },
       ]);
@@ -40,6 +42,7 @@ function Landing() {
         {
           message: "made by me",
           from: "yessa",
+          pfp: "/imgs/pfp/frog1.PNG",
           time: new Date().toLocaleTimeString(),
         },
       ]);
@@ -52,6 +55,7 @@ function Landing() {
         {
           message: "get started here ⬇⬇",
           from: "me",
+          pfp: "/imgs/pfp/bear.PNG",
           time: new Date().toLocaleTimeString(),
         },
       ]);
@@ -62,7 +66,7 @@ function Landing() {
       clearTimeout(timer2);
       clearTimeout(timer3);
       clearTimeout(timer4);
-    }
+    };
   }, []);
 
   return (
@@ -76,11 +80,5 @@ function Landing() {
   );
 }
 
-// message,
-//   setMessage,
-//   handleSendMessage,
-//   messages,
-//   handleTyping,
-//   theirTypingMessage,
 
 export default Landing;

@@ -15,8 +15,8 @@ function Chatbox({
     <div>
       <div className="bg-white  w-180 mx-auto rounded-3xl shadow-sm mt-3 p-5">
         <div className="flex flex-col items-center">
-          <img src="/imgs/pfp.jpg" className="size-12 rounded-full"></img>
-          <h1 className="text-3xl tracking-widest text-green-dark">forg</h1>
+          <img src="/imgs/pfp/frog1.PNG" className="bg-green-light/50 size-12 rounded-full p-0.5"></img>
+          <h1 className="text-3xl tracking-widest text-green-dark">yessa</h1>
         </div>
 
         <div className="bg-green-sub-lightest w-full h-100 mt-2 rounded-3xl shadow-sm p-5 flex flex-col align-bottom justify-end">
@@ -25,10 +25,6 @@ function Chatbox({
               <div className="flex-1 text-center tracking-wider text-green-sub-dark text-lg">
                 -- joined --
               </div>
-              {/* <Receive>hey bro</Receive>
-            <Send>hi dudeee !</Send>
-            <Receive typing={true}>ugly</Receive>
-            <Send typing={true}>wha ????</Send> */}
               {messages.map((msg, index) =>
                 msg.from === "me" ? (
                   <Send
@@ -48,6 +44,7 @@ function Chatbox({
                     key={index}
                     followingMessage={index !== 0 && messages[index - 1].from === messages[index].from}
                     user={msg.from}
+                    pfp={msg.pfp}
                     time={
                       msg.time.split(":")[0] +
                       ":" +
