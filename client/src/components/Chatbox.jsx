@@ -8,18 +8,19 @@ function Chatbox({
   messages,
   handleTyping,
   theirTypingMessage,
-  landing=false
+  landing=false,
+  className = "",
   
 }) {
   return (
-    <div>
+    <div className={className}>
       <div className="bg-white  w-180 mx-auto rounded-3xl shadow-sm mt-3 p-5">
         <div className="flex flex-col items-center">
           <img src="/imgs/pfp/frog1.PNG" className="bg-green-light/50 size-12 rounded-full p-0.5"></img>
           <h1 className="text-3xl tracking-widest text-green-dark">yessa</h1>
         </div>
 
-        <div className="bg-green-sub-lightest w-full h-100 mt-2 rounded-3xl shadow-sm p-5 flex flex-col align-bottom justify-end">
+        <div className={`${landing? "h-85": "h-100"} bg-green-sub-lightest w-full mt-2 rounded-3xl shadow-sm p-5 flex flex-col align-bottom justify-end`}>
           <div className="overflow-y-auto flex flex-col-reverse overflow-x-visible">
             <div className="flex gap-1 pb-5 flex-col">
               <div className="flex-1 text-center tracking-wider text-green-sub-dark text-lg">
