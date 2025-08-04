@@ -3,6 +3,7 @@ import Chatbox from "../components/Chatbox";
 import Clouds from "../components/Clouds";
 import Logo from "../components/Logo";
 import Button from "../components/Button";
+import BgElements from "../components/BgElements";
 
 function Landing() {
   const [messages, setMessages] = useState([]);
@@ -61,11 +62,29 @@ function Landing() {
 
     const timer5 = setTimeout(() => {
       setButton1(true);
-    }, 8000);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          message: "join global chat",
+          from: "yessa",
+          pfp: "/imgs/pfp/frog1.PNG",
+          time: new Date().toLocaleTimeString(),
+        },
+      ]);
+    }, 9000);
 
     const timer6 = setTimeout(() => {
       setButton2(true);
-    }, 9000);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          message: "or private rooms !",
+          from: "me",
+          pfp: "/imgs/pfp/bear.PNG",
+          time: new Date().toLocaleTimeString(),
+        },
+      ]);
+    }, 11000);
 
     return () => {
       clearTimeout(timer1);
@@ -80,6 +99,7 @@ function Landing() {
   return (
     <>
       <Clouds />
+      <BgElements />
       <div className="pt-8">
         <Logo />
       </div>

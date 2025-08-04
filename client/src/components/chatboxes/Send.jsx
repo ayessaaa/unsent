@@ -1,6 +1,6 @@
 function Send({ typing = false, time, children }) {
   return (
-    <div className="flex gap-5 pl-30 pr-10 align-bottom items-end animate__fadeInUpBig animate__animated animate__faster">
+    <div className="flex gap-5 pl-30 pr-10 align-bottom items-end animate__fadeInUpBig animate__animated animate__faster chat-message animate-up">
       <div className="flex flex-col items-end ml-auto">
         <p
           className={` ${

@@ -7,7 +7,7 @@ function Receive({
   children,
 }) {
   return (
-    <div className="flex gap-5 pr-30 align-bottom items-end animate__fadeInUpBig animate__animated animate__faster">
+    <div className="flex gap-5 pr-30 align-bottom items-end animate__fadeInUpBig animate__animated animate__faster chat-message animate-up">
       {!followingMessage ? (
         <img
           src={pfp}

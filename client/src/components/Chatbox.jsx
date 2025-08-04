@@ -1,5 +1,6 @@
 import Receive from "./chatboxes/Receive";
 import Send from "./chatboxes/Send";
+import { useEffect, useRef, useState } from "react";
 
 function Chatbox({
   message,
@@ -12,6 +13,13 @@ function Chatbox({
   className = "",
   
 }) {
+
+  const bottomRef = useRef(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, message, theirTypingMessage]);
+
   return (
     <div className={className}>
       <div className="bg-white  w-180 mx-auto rounded-3xl shadow-sm mt-3 p-5">
@@ -21,9 +29,9 @@ function Chatbox({
         </div>
 
         <div className={`${landing? "h-85": "h-100"} bg-green-sub-lightest w-full mt-2 rounded-3xl shadow-sm p-5 flex flex-col align-bottom justify-end`}>
-          <div className="overflow-y-auto flex flex-col-reverse overflow-x-visible">
+          <div className="overflow-y-auto flex flex-col overflow-x-visible">
             <div className="flex gap-1 pb-5 flex-col">
-              <div className="flex-1 text-center tracking-wider text-green-sub-dark text-lg">
+              <div className="flex-1 text-center tracking-wider text-green-sub-dark text-lg transition-all ">
                 -- joined --
               </div>
               {messages.map((msg, index) =>
@@ -61,6 +69,7 @@ function Chatbox({
               {theirTypingMessage.message && <Receive typing={true} user={theirTypingMessage.from}>{theirTypingMessage.message}</Receive>}
 
               {message && <Send typing={true}>{message}</Send>}
+              <div ref={bottomRef} className={(message && theirTypingMessage.message ? "pb-3" : message ? "pb-1.5" : theirTypingMessage.message ? "pb-1.5" : "")+ " transition-all"} />
             </div>
           </div>
 
