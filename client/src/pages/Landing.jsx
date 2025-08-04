@@ -125,12 +125,12 @@ function Landing() {
         )}
 
         {button2 && (
-          <div className="bg-white/30 rounded-2xl px-3 pt-2 pb-3 mt-8 w-fit mx-auto my-2 animate__animated animate__fadeIn">
+          <div className="bg-green-sub-light rounded-2xl px-3 pt-2 pb-3 mt-8 w-fit mx-auto my-2 animate__animated animate__fadeIn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
               fill="currentColor"
-              className="size-7 -mt-5 mx-auto text-green-sub-lightest bg-[#94d596] rounded-full pt-2  group-hover:-rotate-10"
+              className="size-7 -mt-5 mx-auto text-green-sub-lightest bg-green-sub-light rounded-full pt-2  group-hover:-rotate-10"
             >
               <path
                 fillRule="evenodd"
