@@ -30,6 +30,11 @@ io.on("connection", (socket)=>{
       socket.to(data.room).emit("receive_typing_message", data)
       console.log("message sent typing: ", data.message);
     })
+    
+    socket.on("user_joined", (data)=>{
+      socket.to(data.room).emit("user_joined", data)
+      console.log("user joined: ", data.from);
+    })
 }) 
 
 server.listen(3000, ()=>{

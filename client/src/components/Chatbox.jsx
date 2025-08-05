@@ -9,34 +9,47 @@ function Chatbox({
   messages,
   handleTyping,
   theirTypingMessages,
-  landing=false,
+  landing = false,
   className = "",
-  username
-  
+  username,
+  pfpArray,
+  chatName,
+  children,
 }) {
-
   const bottomRef = useRef(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, message, theirTypingMessages]);
 
-  console.log(messages)
+  console.log(messages);
 
   return (
     <div className={className}>
-      <div className="bg-white  w-180 mx-auto rounded-3xl shadow-sm mt-3 p-5">
+      <div className="bg-white  w-180 mx-auto rounded-3xl shadow-sm mt-10 p-5">
         <div className="flex flex-col items-center">
-          <img src="/imgs/pfp/frog1.PNG" className="bg-green-light/50 size-12 rounded-full p-0.5"></img>
-          <h1 className="text-3xl tracking-widest text-green-dark">yessa</h1>
+          {/* <img
+            src="/imgs/pfp/frog1.PNG"
+            className="bg-green-light/50 size-12 rounded-full p-0.5"
+          ></img> */}
+          {children}
+          <h1 className="text-3xl tracking-widest text-green-dark -mt-2">
+            {chatName}
+          </h1>
+          <p className="flex-1 text-center tracking-wider text-green-sub-dark text-lg transition-all ">
+            
+          </p>
         </div>
-
-        <div className={`${landing? "h-85": "h-100"} bg-green-sub-lightest w-full mt-2 rounded-3xl shadow-sm p-5 flex flex-col align-bottom justify-end`}>
+        <div
+          className={`${
+            landing ? "h-85" : "h-100"
+          } bg-green-sub-lightest w-full mt-2 rounded-3xl shadow-sm p-5 flex flex-col align-bottom justify-end`}
+        >
           <div className="overflow-y-auto flex flex-col overflow-x-visible">
+            <div className="flex-1 text-center tracking-wider text-green-sub-dark text-lg transition-all ">
+              -- u joined --
+            </div>
             <div className="flex gap-1 pb-5 flex-col">
-              <div className="flex-1 text-center tracking-wider text-green-sub-dark text-lg transition-all ">
-                -- joined --
-              </div>
               {messages.map((msg, index) =>
                 msg.from === username ? (
                   <Send
@@ -51,12 +64,18 @@ function Chatbox({
                   >
                     {msg.message}
                   </Send>
+                ) : msg.message === "joined" ? (
+                  <div className="flex-1 text-center tracking-wider text-green-sub-dark text-lg transition-all ">
+                    -- {msg.from} joined --
+                  </div>
                 ) : (
                   <Receive
                     key={index}
-                    followingMessage={index !== 0 && messages[index - 1].from === msg.from}
+                    followingMessage={
+                      index !== 0 && messages[index - 1].from === msg.from
+                    }
                     user={msg.from}
-                    pfp={msg.pfp}
+                    pfp={pfpArray[msg.pfp]}
                     time={
                       msg.time.split(":")[0] +
                       ":" +
@@ -69,21 +88,26 @@ function Chatbox({
                   </Receive>
                 )
               )}
-              {theirTypingMessages.map((typingMsg, index) => (
-                typingMsg.message &&
-                <Receive
-                  key={index}
-                  typing={true}
-                  user={typingMsg.from}
-                  pfp={typingMsg.pfp}
-                >
-                  {typingMsg.message}
-                </Receive>
-              ))}
+              {[...theirTypingMessages].reverse().map(
+                (typingMsg, index) =>
+                  typingMsg.message && (
+                    <Receive
+                      key={index}
+                      typing={true}
+                      user={typingMsg.from}
+                      pfp={pfpArray[typingMsg.pfp]}
+                    >
+                      {typingMsg.message}
+                    </Receive>
+                  )
+              )}
               {/* {theirTypingMessage.message && <Receive typing={true} user={theirTypingMessage.from}>{theirTypingMessage.message}</Receive>} */}
 
               {message && <Send typing={true}>{message}</Send>}
-              <div ref={bottomRef} className={(message  ? "pb-3"  : "")+ " transition-all"} />
+              <div
+                ref={bottomRef}
+                className={(message ? "pb-3" : "") + " transition-all"}
+              />
             </div>
           </div>
 
@@ -95,12 +119,11 @@ function Chatbox({
             }}
           >
             <input
-            
               className="w-full bg-white px-5 py-2 text-green-dark/70 text-2xl tracking-wide rounded-xl shadow-sm transition-all hover:bg-white/50 focus:bg-green-sub-dark focus:outline-0 focus:text-white"
               placeholder="type your message here ..."
               onChange={(e) => {
                 setMessage(e.target.value);
-                handleTyping(e.target.value); 
+                handleTyping(e.target.value);
               }}
               value={message}
               disabled={landing}

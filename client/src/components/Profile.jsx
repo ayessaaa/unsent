@@ -4,26 +4,22 @@ import Button from "./Button";
 function Profile({
   username,
   setUsername,
-  currentPfpIndex,
-  setCurrentPfpIndex,
+  pfpIndex,
+  setPfpIndex,
   handleCreatePfp,
+  pfpArray,
 }) {
   const [pfpRight, setPfpRight] = useState(false);
-  const pfpArray = [
-    "/imgs/pfp/bear1.PNG",
-    "/imgs/pfp/frog1.PNG",
-    "/imgs/pfp/dino1.PNG",
-    "/imgs/pfp/bird1.PNG",
-  ];
+  
 
   function handlePfpClick(direction) {
     // if (currentPfpIndex < 0 && currentPfpIndex >= pfpArray.length) {
     if (direction === "left") {
-      setCurrentPfpIndex((prevIndex) =>
+      setPfpIndex((prevIndex) =>
         prevIndex === 0 ? pfpArray.length - 1 : prevIndex - 1
       );
     } else {
-      setCurrentPfpIndex((prevIndex) =>
+      setPfpIndex((prevIndex) =>
         prevIndex === pfpArray.length - 1 ? 0 : prevIndex + 1
       );
     }
@@ -47,10 +43,10 @@ function Profile({
 
         <p className="text-center -mt-2 ">profile</p>
         <div className="flex items-center gap-3">
-          {!currentPfpIndex - 1 < 0 ? (
+          {!pfpIndex - 1 < 0 ? (
             <img
               onClick={() => handlePfpClick("left")}
-              src={pfpArray[currentPfpIndex - 1]}
+              src={pfpArray[pfpIndex - 1]}
               className="h-20 w-20 rounded-full mx-auto mt-2 opacity-70 transition-all cursor-pointer hover:scale-105 hover:-translate-y-1 hover:opacity-90"
               alt="Profile"
             />
@@ -59,15 +55,15 @@ function Profile({
           )}
 
           <img
-            src={pfpArray[currentPfpIndex]}
+            src={pfpArray[pfpIndex]}
             className="h-30 w-30 rounded-full mx-auto mt-2"
             alt="Profile"
           />
 
-          {currentPfpIndex + 1 < pfpArray.length ? (
+          {pfpIndex + 1 < pfpArray.length ? (
             <img
               onClick={() => handlePfpClick("right")}
-              src={pfpArray[currentPfpIndex + 1]}
+              src={pfpArray[pfpIndex + 1]}
               className={`h-20 w-20 rounded-full mx-auto mt-2 opacity-70 transition-all cursor-pointer hover:scale-105 hover:-translate-y-1 hover:opacity-90 `}
               alt="Profile"
             />
