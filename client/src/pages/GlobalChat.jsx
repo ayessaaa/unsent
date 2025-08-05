@@ -17,6 +17,9 @@ function GlobalChat() {
     "/imgs/pfp/bird1.PNG",
   ];
 
+  // const { users } = {};
+  const [roomUsers, setRoomUsers] = useState([]);
+
   const [username, setUsername] = useState("");
   const [pfpIndex, setPfpIndex] = useState(1);
   const [hasPfp, setHasPfp] = useState(false);
@@ -30,11 +33,14 @@ function GlobalChat() {
   const [mode, setMode] = useState("global");
 
   useEffect(() => {
-    socket.emit("join_room", roomID);
-
     const handleUserJoined = (data) => {
       setMessages((prevMessages) => [...prevMessages, data]);
       console.log("joined");
+    };
+
+    const handleUserLeft = (data) => {
+      setMessages((prevMessages) => [...prevMessages, data]);
+      console.log("left");
     };
 
     const handleReceiveMessage = (data) => {
@@ -45,6 +51,7 @@ function GlobalChat() {
           from: data.from,
           pfp: data.pfp,
           time: new Date().toLocaleTimeString(),
+          type: data.type,
         },
       ]);
       console.log("message received: ", data.message);
@@ -67,13 +74,18 @@ function GlobalChat() {
     };
 
     socket.on("user_joined", handleUserJoined);
+    socket.on("user_left", handleUserLeft);
     socket.on("receive_message", handleReceiveMessage);
     socket.on("receive_typing_message", handleReceiveTypingMessage);
+    socket.on("room_users", (users) => {
+      setRoomUsers(users);
+    });
 
     return () => {
       socket.off("receive_message", handleReceiveMessage);
       socket.off("receive_typing_message", handleReceiveTypingMessage);
       socket.off("user_joined", handleUserJoined);
+      socket.off("room_users");
     };
   }, [roomID]);
 
@@ -84,6 +96,7 @@ function GlobalChat() {
       pfp: pfpIndex,
       room: roomID,
       time: new Date().toLocaleTimeString(),
+      type: "message",
     };
     socket.emit("send_message", msg);
     setMessages((prevMessages) => [...prevMessages, msg]);
@@ -107,12 +120,13 @@ function GlobalChat() {
   };
 
   const handleJoinGlobalChat = () => {
-    socket.emit("user_joined", {
+    socket.emit("join_room", {
       message: "joined",
       from: username,
       pfp: pfpIndex,
       room: roomID,
       time: new Date().toLocaleTimeString(),
+      type: "logs",
     });
   };
 

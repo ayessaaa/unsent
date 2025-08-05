@@ -64,15 +64,15 @@ function Chatbox({
                   >
                     {msg.message}
                   </Send>
-                ) : msg.message === "joined" ? (
+                ) : msg.type === "logs" ? (
                   <div className="flex-1 text-center tracking-wider text-green-sub-dark text-lg transition-all ">
-                    -- {msg.from} joined --
+                    -- {msg.from} {msg.message} --
                   </div>
                 ) : (
                   <Receive
                     key={index}
                     followingMessage={
-                      index !== 0 && messages[index - 1].from === msg.from
+                      index !== 0 && messages[index - 1].from === msg.from && messages[index - 1].type !== "joined"
                     }
                     user={msg.from}
                     pfp={pfpArray[msg.pfp]}

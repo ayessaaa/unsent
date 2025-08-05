@@ -14,29 +14,75 @@ const io = new Server(server, {
   },
 });
 
-io.on("connection", (socket)=>{
-    console.log("user connected: ", socket.id);
+const usersInRoom = {};
 
-    socket.on("join_room", (data)=>{
-      socket.join(data);
-    })
+io.on("connection", (socket) => {
+  console.log("user connected: ", socket.id);
 
-    socket.on("send_message", (data)=>{
-      socket.to(data.room).emit("receive_message", data)
-      console.log("message sent: ", data.message);
-    })
+  socket.on("join_room", (data) => {
+    const { room, from, pfp } = data;
+    if (!usersInRoom[room]) usersInRoom[room] = [];
 
-    socket.on("send_typing_message", (data)=>{
-      socket.to(data.room).emit("receive_typing_message", data)
-      console.log("message sent typing: ", data.message);
-    })
-    
-    socket.on("user_joined", (data)=>{
-      socket.to(data.room).emit("user_joined", data)
-      console.log("user joined: ", data.from);
-    })
-}) 
+    if (!usersInRoom[room].some((u) => u.id === socket.id)) {
+      usersInRoom[room].push({ id: socket.id, username: from, pfp });
+    }
+    socket.join(room);
 
-server.listen(3000, ()=>{
-    console.log('listening on *:3000');
-})
+    socket.to(data.room).emit("room_users", usersInRoom[room]);
+    socket.to(data.room).emit("user_joined", data);
+    console.log(usersInRoom[room]);
+  });
+
+  socket.on("disconnect", () => {
+    let userLeft = null;
+    let roomLeft = null;
+
+    for (const room in usersInRoom) {
+      const index = usersInRoom[room].findIndex((u) => u.id === socket.id);
+
+      if (index !== -1) {
+        userLeft = usersInRoom[room][index];
+        roomLeft = room;
+        usersInRoom[room].splice(index, 1);
+
+        io.to(room).emit("room_users", usersInRoom[room]);
+        break;
+      }
+    }
+
+    if (userLeft) {
+      console.log(
+        `user left: ${userLeft.username} (${socket.id}) from room ${roomLeft}`
+      );
+      io.to(roomLeft).emit("user_left", {
+        from: userLeft.username,
+        message: "left",
+        room: roomLeft,
+        time: new Date().toLocaleTimeString(),
+        type: "logs",
+      });
+    } else {
+      console.log(`User disconnected: ${socket.id}`);
+    }
+  });
+
+  // socket.on("join_room", (data)=>{
+  //   socket.join(data.room);
+  //   socket.to(data.room).emit("user_joined", data)
+  //   console.log("user joined: ", data.from);
+  // })
+
+  socket.on("send_message", (data) => {
+    socket.to(data.room).emit("receive_message", data);
+    console.log("message sent: ", data.message);
+  });
+
+  socket.on("send_typing_message", (data) => {
+    socket.to(data.room).emit("receive_typing_message", data);
+    console.log("message sent typing: ", data.message);
+  });
+});
+
+server.listen(3000, () => {
+  console.log("listening on *:3000");
+});
