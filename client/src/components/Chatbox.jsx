@@ -8,9 +8,10 @@ function Chatbox({
   handleSendMessage,
   messages,
   handleTyping,
-  theirTypingMessage,
+  theirTypingMessages,
   landing=false,
   className = "",
+  username
   
 }) {
 
@@ -18,7 +19,9 @@ function Chatbox({
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, message, theirTypingMessage]);
+  }, [messages, message, theirTypingMessages]);
+
+  console.log(messages)
 
   return (
     <div className={className}>
@@ -35,7 +38,7 @@ function Chatbox({
                 -- joined --
               </div>
               {messages.map((msg, index) =>
-                msg.from === "me" ? (
+                msg.from === username ? (
                   <Send
                     key={index}
                     time={
@@ -51,7 +54,7 @@ function Chatbox({
                 ) : (
                   <Receive
                     key={index}
-                    followingMessage={index !== 0 && messages[index - 1].from === messages[index].from}
+                    followingMessage={index !== 0 && messages[index - 1].from === msg.from}
                     user={msg.from}
                     pfp={msg.pfp}
                     time={
@@ -66,10 +69,21 @@ function Chatbox({
                   </Receive>
                 )
               )}
-              {theirTypingMessage.message && <Receive typing={true} user={theirTypingMessage.from}>{theirTypingMessage.message}</Receive>}
+              {theirTypingMessages.map((typingMsg, index) => (
+                typingMsg.message &&
+                <Receive
+                  key={index}
+                  typing={true}
+                  user={typingMsg.from}
+                  pfp={typingMsg.pfp}
+                >
+                  {typingMsg.message}
+                </Receive>
+              ))}
+              {/* {theirTypingMessage.message && <Receive typing={true} user={theirTypingMessage.from}>{theirTypingMessage.message}</Receive>} */}
 
               {message && <Send typing={true}>{message}</Send>}
-              <div ref={bottomRef} className={(message && theirTypingMessage.message ? "pb-3" : message ? "pb-1.5" : theirTypingMessage.message ? "pb-1.5" : "")+ " transition-all"} />
+              <div ref={bottomRef} className={(message  ? "pb-3"  : "")+ " transition-all"} />
             </div>
           </div>
 

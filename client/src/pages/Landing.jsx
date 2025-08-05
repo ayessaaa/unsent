@@ -96,6 +96,10 @@ function Landing() {
     };
   }, []);
 
+  function handleGlobalChatClick() {
+    window.location.href = "/global-chat";
+  }
+
   return (
     <>
       <Clouds />
@@ -107,7 +111,7 @@ function Landing() {
 
       <div>
         {button1 && (
-          <Button className="mt-10" color="dark">
+          <Button className="mt-10" color="dark" onClick={handleGlobalChatClick}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"

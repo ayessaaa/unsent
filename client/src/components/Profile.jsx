@@ -1,7 +1,13 @@
 import { useState } from "react";
 import Button from "./Button";
 
-function Profile() {
+function Profile({
+  username,
+  setUsername,
+  currentPfpIndex,
+  setCurrentPfpIndex,
+  handleCreatePfp,
+}) {
   const [pfpRight, setPfpRight] = useState(false);
   const pfpArray = [
     "/imgs/pfp/bear1.PNG",
@@ -9,8 +15,6 @@ function Profile() {
     "/imgs/pfp/dino1.PNG",
     "/imgs/pfp/bird1.PNG",
   ];
-
-  const [currentPfpIndex, setCurrentPfpIndex] = useState(1);
 
   function handlePfpClick(direction) {
     // if (currentPfpIndex < 0 && currentPfpIndex >= pfpArray.length) {
@@ -26,7 +30,7 @@ function Profile() {
     // }
   }
   return (
-    <>
+    <form onSubmit={(e)=>handleCreatePfp(e)}>
       <div className="bg-green-sub-light tracking-wider rounded-2xl px-10 pt-2 pb-4 mt-8 w-fit mx-auto my-2 animate__animated animate__fadeIn text-white text-2xl">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -75,11 +79,28 @@ function Profile() {
           <input
             className="w-full text-center bg-green-sub-lightest px-5 py-1 text-green-dark/70 text-2xl tracking-wider rounded-xl shadow-sm transition-all hover:bg-white/50 focus:bg-green-sub-dark focus:outline-0 focus:text-white"
             placeholder="username"
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+            required
           ></input>
         </div>
       </div>
-      
-    </>
+      <Button className="mt-15" color="dark" type="submit">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          className="size-7 group-hover:-rotate-10"
+        >
+          <path
+            fillRule="evenodd"
+            d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1ZM4.5 3.757a5.5 5.5 0 1 0 6.857-.114l-.65.65a.707.707 0 0 0-.207.5c0 .39-.317.707-.707.707H8.427a.496.496 0 0 0-.413.771l.25.376a.481.481 0 0 0 .616.163.962.962 0 0 1 1.11.18l.573.573a1 1 0 0 1 .242 1.023l-1.012 3.035a1 1 0 0 1-1.191.654l-.345-.086a1 1 0 0 1-.757-.97v-.305a1 1 0 0 0-.293-.707L6.1 9.1a.849.849 0 0 1 0-1.2c.22-.22.22-.58 0-.8l-.721-.721A3 3 0 0 1 4.5 4.257v-.5Z"
+            clipRule="evenodd"
+          />
+        </svg>
+        <p className="text-3xl">join global chat</p>
+      </Button>
+    </form>
   );
 }
 
