@@ -6,6 +6,8 @@ import Logo from "../components/Logo";
 import Profile from "../components/Profile";
 import Chatbox from "../components/Chatbox";
 import io from "socket.io-client";
+import Mode from "../components/Mode";
+import Dialog from "../components/Dialog";
 
 const socket = io.connect("http://localhost:3000");
 
@@ -32,15 +34,22 @@ function GlobalChat() {
 
   const [mode, setMode] = useState("global");
 
+  const [switchModeClicked, setSwitchModeClicked] = useState(false);
+
   useEffect(() => {
     const handleUserJoined = (data) => {
       setMessages((prevMessages) => [...prevMessages, data]);
-      console.log("joined");
     };
 
     const handleUserLeft = (data) => {
-      setMessages((prevMessages) => [...prevMessages, data]);
-      console.log("left");
+      setMessages((prevMessages) => {
+        const lastMsg = prevMessages[prevMessages.length - 1];
+        // Compare stringified values or specific fields
+        if (lastMsg && JSON.stringify(lastMsg) === JSON.stringify(data)) {
+          return prevMessages; // Don't append if same as last one
+        }
+        return [...prevMessages, data];
+      });
     };
 
     const handleReceiveMessage = (data) => {
@@ -79,6 +88,7 @@ function GlobalChat() {
     socket.on("receive_typing_message", handleReceiveTypingMessage);
     socket.on("room_users", (users) => {
       setRoomUsers(users);
+      console.log([...users]);
     });
 
     return () => {
@@ -87,7 +97,7 @@ function GlobalChat() {
       socket.off("user_joined", handleUserJoined);
       socket.off("room_users");
     };
-  }, [roomID]);
+  }, [roomID, roomUsers]);
 
   const handleSendMessage = () => {
     const msg = {
@@ -137,15 +147,47 @@ function GlobalChat() {
   }
 
   return (
-    <div>
+    <div className="">
+      
+
+      {switchModeClicked ? (
+        <Dialog
+          message={"joining a private room will make you leave the global chat"}
+          options={["no i don't wanna leave", "yes let me leave"]}
+          svgs={[
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              className="size-6 group-hover:-rotate-10"
+            >
+              <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
+            </svg>,
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              className="size-6 group-hover:-rotate-10"
+            >
+              <path
+                fillRule="evenodd"
+                d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z"
+                clipRule="evenodd"
+              />
+            </svg>,
+          ]}
+        />
+      ) : (
+        ""
+      )}
+
       <Clouds />
       <BgElements />
       <div className="pt-8">
         <Logo />
       </div>
-      <p className="text-center text-white text-3xl tracking-wide mt-20">
-        global chat
-      </p>
+      <Mode roomID={roomID} mode={mode} setMode={setMode} />
+
       {hasPfp ? (
         <Chatbox
           message={message}
@@ -157,12 +199,13 @@ function GlobalChat() {
           username={username}
           pfpArray={pfpArray}
           chatName={"global chat"}
+          users={roomUsers}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
             fill="currentColor"
-            className="size-17 group-hover:-rotate-10 text-green-sub-light -mt-10 bg-white p-3 rounded-t-full"
+            className="size-17 group-hover:-rotate-10 text-green-sub-light -mt-10 bg-white p-2.5 rounded-t-full"
           >
             <path
               fillRule="evenodd"
@@ -173,6 +216,9 @@ function GlobalChat() {
         </Chatbox>
       ) : (
         <div>
+          <p className="text-center text-white text-3xl tracking-wide -mt-10">
+            global chat
+          </p>
           <Profile
             username={username}
             setUsername={setUsername}

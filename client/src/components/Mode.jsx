@@ -46,7 +46,7 @@ function Mode({ mode, setMode, roomID }) {
           </svg>
         </button>
       </div>
-      <p className="text-center flex-1 text-white text-2xl tracking-wider">{mode} chat</p>
+      {/* <p className="text-center flex-1 text-white text-2xl tracking-wider">{mode} chat</p> */}
       <RoomID roomID={roomID} />
     </div>
   );

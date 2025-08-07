@@ -18,7 +18,7 @@ function Landing() {
         {
           message: "hi!",
           from: "yessa",
-          pfp: "/imgs/pfp/frog1.PNG",
+          pfp: 1,
           time: new Date().toLocaleTimeString(),
         },
       ]);
@@ -30,7 +30,7 @@ function Landing() {
         {
           message: "check out this amazing chat app",
           from: "yessa",
-          pfp: "/imgs/pfp/frog1.PNG",
+          pfp: 1,
           time: new Date().toLocaleTimeString(),
         },
       ]);
@@ -42,7 +42,7 @@ function Landing() {
         {
           message: "made by me",
           from: "yessa",
-          pfp: "/imgs/pfp/frog1.PNG",
+          pfp: 1,
           time: new Date().toLocaleTimeString(),
         },
       ]);
@@ -53,8 +53,8 @@ function Landing() {
         ...prevMessages,
         {
           message: "get started here ⬇⬇",
-          from: "me",
-          pfp: "/imgs/pfp/bear.PNG",
+          from: undefined,
+          pfp: 1,
           time: new Date().toLocaleTimeString(),
         },
       ]);
@@ -67,7 +67,7 @@ function Landing() {
         {
           message: "join global chat",
           from: "yessa",
-          pfp: "/imgs/pfp/frog1.PNG",
+          pfp: 1,
           time: new Date().toLocaleTimeString(),
         },
       ]);
@@ -79,8 +79,8 @@ function Landing() {
         ...prevMessages,
         {
           message: "or private rooms !",
-          from: "me",
-          pfp: "/imgs/pfp/bear.PNG",
+          from: undefined,
+          pfp: 1,
           time: new Date().toLocaleTimeString(),
         },
       ]);
@@ -107,7 +107,7 @@ function Landing() {
       <div className="pt-8">
         <Logo />
       </div>
-      <Chatbox landing={true} messages={messages} theirTypingMessage={""} className="mt-5" />
+      <Chatbox landing={true} messages={messages} theirTypingMessage={[]} className="mt-5" chatName={"yessa"} />
 
       <div>
         {button1 && (

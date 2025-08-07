@@ -24,11 +24,11 @@ io.on("connection", (socket) => {
     if (!usersInRoom[room]) usersInRoom[room] = [];
 
     if (!usersInRoom[room].some((u) => u.id === socket.id)) {
-      usersInRoom[room].push({ id: socket.id, username: from, pfp });
+      usersInRoom[room].push({ id: socket.id, from: from, pfp });
     }
     socket.join(room);
 
-    socket.to(data.room).emit("room_users", usersInRoom[room]);
+    io.to(data.room).emit("room_users", usersInRoom[room]);
     socket.to(data.room).emit("user_joined", data);
     console.log(usersInRoom[room]);
   });
@@ -52,13 +52,12 @@ io.on("connection", (socket) => {
 
     if (userLeft) {
       console.log(
-        `user left: ${userLeft.username} (${socket.id}) from room ${roomLeft}`
+        `user left: ${userLeft.from} (${socket.id}) from room ${roomLeft}`
       );
       io.to(roomLeft).emit("user_left", {
-        from: userLeft.username,
+        from: userLeft.from,
         message: "left",
         room: roomLeft,
-        time: new Date().toLocaleTimeString(),
         type: "logs",
       });
     } else {

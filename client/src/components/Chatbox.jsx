@@ -12,33 +12,47 @@ function Chatbox({
   landing = false,
   className = "",
   username,
-  pfpArray,
   chatName,
+  users,
   children,
 }) {
   const bottomRef = useRef(null);
+  const pfpArray = [
+    "/imgs/pfp/bear1.PNG",
+    "/imgs/pfp/frog1.PNG",
+    "/imgs/pfp/dino1.PNG",
+    "/imgs/pfp/bird1.PNG",
+  ];
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, message, theirTypingMessages]);
 
-  console.log(messages);
 
   return (
     <div className={className}>
       <div className="bg-white  w-180 mx-auto rounded-3xl shadow-sm mt-10 p-5">
         <div className="flex flex-col items-center">
-          {/* <img
-            src="/imgs/pfp/frog1.PNG"
-            className="bg-green-light/50 size-12 rounded-full p-0.5"
-          ></img> */}
+          {landing && (
+            <img
+              src="/imgs/pfp/frog1.PNG"
+              className="bg-green-light/50 size-12 rounded-full p-0.5"
+            ></img>
+          )}
           {children}
-          <h1 className="text-3xl tracking-widest text-green-dark -mt-2">
+          <h1
+            className={
+              `text-3xl tracking-widest text-green-dark ` +
+              (landing ? "" : "-mt-2")
+            }
+          >
             {chatName}
           </h1>
-          <p className="flex-1 text-center tracking-wider text-green-sub-dark text-lg transition-all ">
-            
-          </p>
+          {users && (
+            <p className="flex-1 text-center tracking-wider text-green-sub-dark text-lg transition-all line-clamp-1 px-30">
+              {users.map(user=>user.from+", ")}
+            </p>
+          )}
         </div>
         <div
           className={`${
@@ -46,7 +60,7 @@ function Chatbox({
           } bg-green-sub-lightest w-full mt-2 rounded-3xl shadow-sm p-5 flex flex-col align-bottom justify-end`}
         >
           <div className="overflow-y-auto flex flex-col overflow-x-visible">
-            <div className="flex-1 text-center tracking-wider text-green-sub-dark text-lg transition-all ">
+            <div className="flex-1 text-center tracking-wider text-green-sub-dark text-lg transition-all chat-message animate-up ">
               -- u joined --
             </div>
             <div className="flex gap-1 pb-5 flex-col">
@@ -65,14 +79,16 @@ function Chatbox({
                     {msg.message}
                   </Send>
                 ) : msg.type === "logs" ? (
-                  <div className="flex-1 text-center tracking-wider text-green-sub-dark text-lg transition-all ">
+                  <div className="flex-1 text-center tracking-wider text-green-sub-dark text-lg transition-all chat-message animate-up">
                     -- {msg.from} {msg.message} --
                   </div>
                 ) : (
                   <Receive
                     key={index}
                     followingMessage={
-                      index !== 0 && messages[index - 1].from === msg.from && messages[index - 1].type !== "joined"
+                      index !== 0 &&
+                      messages[index - 1].from === msg.from &&
+                      messages[index - 1].type !== "logs"
                     }
                     user={msg.from}
                     pfp={pfpArray[msg.pfp]}
@@ -88,19 +104,20 @@ function Chatbox({
                   </Receive>
                 )
               )}
-              {[...theirTypingMessages].reverse().map(
-                (typingMsg, index) =>
-                  typingMsg.message && (
-                    <Receive
-                      key={index}
-                      typing={true}
-                      user={typingMsg.from}
-                      pfp={pfpArray[typingMsg.pfp]}
-                    >
-                      {typingMsg.message}
-                    </Receive>
-                  )
-              )}
+              {landing ||
+                [...theirTypingMessages].reverse().map(
+                  (typingMsg, index) =>
+                    typingMsg.message && (
+                      <Receive
+                        key={index}
+                        typing={true}
+                        user={typingMsg.from}
+                        pfp={pfpArray[typingMsg.pfp]}
+                      >
+                        {typingMsg.message}
+                      </Receive>
+                    )
+                )}
               {/* {theirTypingMessage.message && <Receive typing={true} user={theirTypingMessage.from}>{theirTypingMessage.message}</Receive>} */}
 
               {message && <Send typing={true}>{message}</Send>}
