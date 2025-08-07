@@ -1,6 +1,8 @@
+import { useState } from "react";
 import Button from "./Button";
 
-function Dialog({ message, options, svgs }) {
+function Dialog({ message, options, svgs, action }) {
+  
   return (
     <>
       <div class="animate__animated animate__fadeIn fixed inset-0 bg-black/50 z-40"></div>
@@ -21,9 +23,13 @@ function Dialog({ message, options, svgs }) {
         {message}
         <div className="flex gap-3 mx-auto w-fit text-2xl text-green-sub-dark tracking-wider mt-5">
           {options.map((option, i) => (
-            <Button color={"white"}>
-              {svgs[i]}
-              {option}
+            <Button
+              color={"white"}
+              key={option}
+              onClick={() =>{ option.action(); action(false)}}
+            >
+              {option.svg}
+              {option.message}
             </Button>
           ))}
         </div>

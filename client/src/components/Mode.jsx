@@ -1,8 +1,11 @@
 import RoomID from "./RoomID";
 
-function Mode({ mode, setMode, roomID }) {
+function Mode({ mode, setMode, roomID, setSwitchModeClicked }) {
   const handleModeChange = (newMode) => {
-    setMode(newMode);
+    // setMode(newMode);
+    if (newMode === "private") {
+      setSwitchModeClicked(true);
+    }
   };
   return (
     <div className="flex justify-center items-end mt-10 w-180 mx-auto">

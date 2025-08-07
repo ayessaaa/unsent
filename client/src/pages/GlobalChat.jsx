@@ -36,6 +36,14 @@ function GlobalChat() {
 
   const [switchModeClicked, setSwitchModeClicked] = useState(false);
 
+  if (mode === "private"){
+    window.location.href= "/private-room"
+  }
+
+  if (switchModeClicked && !hasPfp){
+    setMode("private")
+  }
+
   useEffect(() => {
     const handleUserJoined = (data) => {
       setMessages((prevMessages) => [...prevMessages, data]);
@@ -148,12 +156,45 @@ function GlobalChat() {
 
   return (
     <div className="">
-      
-
       {switchModeClicked ? (
         <Dialog
+          action={setSwitchModeClicked}
           message={"joining a private room will make you leave the global chat"}
-          options={["no i don't wanna leave", "yes let me leave"]}
+          options={[
+            {
+              message: "no i don't wanna leave",
+              action: () => {
+                setMode("global");
+              },
+              svg: (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  className="size-6 group-hover:-rotate-10"
+                >
+                  <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
+                </svg>
+              ),
+            },
+
+            {
+              message: "yes let me leave",
+              action: () => {
+                setMode("private");
+              },
+              svg: (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                  className="size-6 group-hover:-rotate-10"
+                >
+                  <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
+                </svg>
+              ),
+            },
+          ]}
           svgs={[
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -186,7 +227,12 @@ function GlobalChat() {
       <div className="pt-8">
         <Logo />
       </div>
-      <Mode roomID={roomID} mode={mode} setMode={setMode} />
+      <Mode
+        roomID={roomID}
+        mode={mode}
+        setMode={setMode}
+        setSwitchModeClicked={setSwitchModeClicked}
+      />
 
       {hasPfp ? (
         <Chatbox
